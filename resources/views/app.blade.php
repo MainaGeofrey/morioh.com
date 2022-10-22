@@ -28,7 +28,7 @@
         <div id="app">
             </div> <!--begin::Loading markup-->
         <div class="splash-screen">
-            <img src="./media/logos/default-small.svg" alt="Metronic logo" />
+            <img src="./media/logos/default-small.svg" alt="morioh.com" />
             <span>Welcome to Morioh.com ... </span>
         </div>
         <!--end::Loading markup-->

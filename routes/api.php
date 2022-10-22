@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\User\ApiKeyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,21 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::group(['middleware' => ['auth:api']], function ()   {
+	Route::prefix('v1')->group(function () {
+
+    });
+});
+
+Route::fallback(function (){
+	return response()->json([
+        'message' => 'API resource not found!'
+],404);
+ //return 'API resource not found';
+//  abort(404, 'API resource not found');
+});
+
+
+Route::post('api-key', [ApiKeyController ::class, 'apiKeyGen'])->name('api-key');

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /*
 =========================================================
 * Vue Material Kit 2 - v2.0.0
