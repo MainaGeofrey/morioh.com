@@ -14,7 +14,7 @@ import materialKit from "./material-kit";
 import ElementPlus from "element-plus";
 //import i18n from "@/core/plugins/i18n";
 //imports for app initialization
-//import ApiService from "@/core/services/ApiService";
+import ApiService from "./core/services/ApiService";
 
 //import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 
@@ -28,7 +28,7 @@ app.use(materialKit);
 //app.use(store);
 app.use(ElementPlus);
 
-//ApiService.init(app);
+ApiService.init(app);
 //initApexCharts(app);
 //initInlineSvg(app);
 //initVeeValidate();
