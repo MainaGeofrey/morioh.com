@@ -12,7 +12,7 @@
     <body class="page-loading">
         <!--begin::Theme mode setup on page load-->
         <script>
-            if (document.documentElement) {
+           /* if (document.documentElement) {
                 var defaultThemeMode = "system"; var name = document.body.getAttribute("data-kt-name");
                 var themeMode = localStorage.getItem("kt_" + (name ? name + "_" : "") + "theme_mode_value"); if (themeMode === null) {
             if (defaultThemeMode === "system") {
@@ -22,7 +22,7 @@
             }
             }
                 document.documentElement.setAttribute("data-theme", themeMode);
-            }
+            } */
         </script>
         <!--end::Theme mode setup on page load-->
         <div id="app">

@@ -1,5 +1,11 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
+
+import { ErrorMessage, Field, useForm } from "vee-validate";
+import * as Yup from "yup";
+import { Actions } from "@/store/enums/StoreEnums";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 // example components
 import DefaultNavbar from "@/examples/navbars/NavbarDefault.vue";
@@ -12,8 +18,39 @@ import MaterialButton from "@/components/MaterialButton.vue";
 
 // material-input
 import setMaterialInput from "@/assets/js/material-input";
+
+const count = ref(0)
+
+const formData = ref({
+    emailAddress: "",
+    password: "",
+});
+
+
+const validationSchema = Yup.object().shape({
+            //apiName: Yup.string().required().label("API name"),
+
+            email: Yup.string().email().required().label("email"),
+            password: Yup.string().required().label("password"),
+});
+
+const {  errors} = useForm({
+  validationSchema:validationSchema,
+});
+
+
+
+// functions that mutate state and trigger updates
+function submit() {
+
+    formData.value.password = document.getElementById("password").value;
+    formData.value.emailAddress = document.getElementById("email").value;
+    console.log(formData.value)
+
+}
 onMounted(() => {
   setMaterialInput();
+
 });
 </script>
 <template>
@@ -63,19 +100,29 @@ onMounted(() => {
                 </div>
               </div>
               <div class="card-body">
-                <form role="form" class="text-start">
+                <form :validation-schema="validationSchema" role="form" class="text-start" @submit.prevent="submit"  >
                   <MaterialInput
                     id="email"
                     class="input-group-outline my-3"
                     :label="{ text: 'Email', class: 'form-label' }"
                     type="email"
                   />
+                  <div class="fv-plugins-message-container">
+                        <div class="fv-help-block">
+                            <ErrorMessage name="email" />
+                        </div>
+                 </div>
                   <MaterialInput
                     id="password"
                     class="input-group-outline mb-3"
                     :label="{ text: 'Password', class: 'form-label' }"
                     type="password"
                   />
+                  <div class="fv-plugins-message-container">
+                        <div class="fv-help-block">
+                            <ErrorMessage name="password" />
+                        </div>
+                 </div>
                   <MaterialSwitch
                     class="d-flex align-items-center mb-3"
                     id="rememberMe"
@@ -90,7 +137,10 @@ onMounted(() => {
                       variant="gradient"
                       color="success"
                       fullWidth
+                      type = "submit"
+
                       >Sign in</MaterialButton
+
                     >
                   </div>
                   <p class="mt-4 text-sm text-center">

@@ -10,7 +10,7 @@ import "./assets/css/nucleo-svg.css";
 import materialKit from "./material-kit";
 
 
-//import store from "./stores";
+import store from "./store";
 import ElementPlus from "element-plus";
 //import i18n from "@/core/plugins/i18n";
 //imports for app initialization
@@ -25,7 +25,7 @@ app.use(createPinia());
 app.use(router);
 app.use(materialKit);
 
-//app.use(store);
+app.use(store);
 app.use(ElementPlus);
 
 ApiService.init(app);
