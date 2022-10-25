@@ -24,7 +24,7 @@ Route::get('/', function () {
 });
 
 
-Route::any('/login', [AuthenticatedSessionController::class, 'login']);
+Route::post('/login', [AuthenticatedSessionController::class, 'login']);
 Route::post('/verify_token', function (Request $request) {
 return response([
     'id' => auth()->user()->id,

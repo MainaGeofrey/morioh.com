@@ -50,7 +50,7 @@ import imgSigninCover from "@/assets/img/signin-cover.png";
                 classes="mt-5"
                 title="Sign In Page"
                 :image="imgSigninCover"
-                route="signin-basic"
+                route="sign-in"
               />
             </div>
             <div class="col-md-6 mt-md-0 mt-5">

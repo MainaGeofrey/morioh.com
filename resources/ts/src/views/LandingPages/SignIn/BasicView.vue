@@ -15,6 +15,7 @@ import Header from "@/examples/Header.vue";
 import MaterialInput from "@/components/MaterialInput.vue";
 import MaterialSwitch from "@/components/MaterialSwitch.vue";
 import MaterialButton from "@/components/MaterialButton.vue";
+import { ElNotification } from 'element-plus'
 
 // material-input
 import setMaterialInput from "@/assets/js/material-input";
@@ -22,10 +23,14 @@ import setMaterialInput from "@/assets/js/material-input";
 const count = ref(0)
 
 const formData = ref({
-    emailAddress: "",
+    email: "",
     password: "",
 });
-
+const submitButton = ref<HTMLButtonElement | null>(null);
+const store = useStore();
+const router = useRouter();
+let loading = false;
+let errorMessage = "" ;
 
 const validationSchema = Yup.object().shape({
             //apiName: Yup.string().required().label("API name"),
@@ -37,15 +42,40 @@ const validationSchema = Yup.object().shape({
 const {  errors} = useForm({
   validationSchema:validationSchema,
 });
+const open = () => {
+  ElNotification.success({
+    title: 'Info',
+    message: 'Welcome to the place to buy and sell.',
+    showClose: false,
+  })
+}
 
 
 
 // functions that mutate state and trigger updates
-function submit() {
-
+async function submit(values) {
+  loading = true;
     formData.value.password = document.getElementById("password").value;
-    formData.value.emailAddress = document.getElementById("email").value;
+    formData.value.email = document.getElementById("email").value;
     console.log(formData.value)
+
+    // Clear existing errors
+    store.dispatch(Actions.LOGOUT);
+
+    // Send login request
+    await store.dispatch(Actions.LOGIN, formData);
+    const [errorName] = Object.keys(store.getters.getErrors);
+    const error = store.getters.getErrors[errorName];
+
+
+    if(!error){
+       // open()
+        router.push({ name: "author" });
+    }
+    else{
+        errorMessage = error
+        console.log(errorMessage)
+    }
 
 }
 onMounted(() => {
@@ -130,7 +160,11 @@ onMounted(() => {
                     checked
                     >Remember me</MaterialSwitch
                   >
-
+                  <div class="fv-plugins-message-container">
+                        <div class="fv-help-block">
+                            <span>{{ errorMessage }}</span>
+                        </div>
+                 </div>
                   <div class="text-center">
                     <MaterialButton
                       class="my-4 mb-2"
@@ -138,6 +172,8 @@ onMounted(() => {
                       color="success"
                       fullWidth
                       type = "submit"
+                      ref="submitButton"
+                      :disabled = loading
 
                       >Sign in</MaterialButton
 
